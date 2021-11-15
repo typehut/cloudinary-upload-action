@@ -1,3 +1,4 @@
+const path = require("path");
 const core = require("@actions/core");
 const cloudinary = require("cloudinary").v2;
 
@@ -13,8 +14,7 @@ module.exports = function uploader(cloudName, apiKey, apiSecret, files) {
     core.info(`uploading ${file}`);
 
     return cloudinary.uploader.upload(file, {
-      use_filename: true,
-      unique_filename: false,
+      public_id: path.basename(file, path.extname(file)),
     });
   };
 

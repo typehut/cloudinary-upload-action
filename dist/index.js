@@ -67883,26 +67883,28 @@ function wrappy (fn, cb) {
 /***/ 29730:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
+const path = __nccwpck_require__(85622);
 const core = __nccwpck_require__(42186);
 const cloudinary = __nccwpck_require__(46940).v2;
-const path = __nccwpck_require__(85622);
 
 module.exports = function uploader(cloudName, apiKey, apiSecret, files) {
   cloudinary.config({
     cloud_name: cloudName,
     api_key: apiKey,
     api_secret: apiSecret,
-    secure: true
+    secure: true,
   });
 
-  const cloudinaryUploader = file => {
+  const cloudinaryUploader = (file) => {
     core.info(`uploading ${file}`);
 
-    return cloudinary.uploader.upload(file, { public_id: path.basename(file) });
+    return cloudinary.uploader.upload(file, {
+      public_id: path.basename(file, path.extname(file)),
+    });
   };
 
   return Promise.all(files.map(cloudinaryUploader));
-}
+};
 
 
 /***/ }),
